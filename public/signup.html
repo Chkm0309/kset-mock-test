@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Chaithanya Career Academy</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .form-box { background: white; padding: 30px; border-radius: 10px; width: 320px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
+        h2 { color: #007bff; margin-bottom: 5px; }
+        p { color: #666; font-size: 14px; margin-bottom: 20px; }
+        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; }
+        button { width: 98%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 10px; }
+        button:hover { background-color: #218838; }
+        .links { margin-top: 20px; font-size: 14px; }
+        .links a { color: #007bff; text-decoration: none; }
+        .links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="form-box">
+        <h2>ಹೊಸ ಖಾತೆ ಸೃಷ್ಟಿಸಿ</h2>
+        <p>ವಿದ್ಯಾರ್ಥಿ ನೋಂದಣಿ (Student Registration)</p>
+        
+        <!-- ಡೇಟಾ ಬ್ಯಾಕೆಂಡ್‌ನ /signup ಎಂಬ ಲಿಂಕ್‌ಗೆ ಹೋಗುತ್ತದೆ -->
+        <form action="/signup" method="POST">
+            <input type="text" name="name" placeholder="ನಿಮ್ಮ ಹೆಸರು (Name)" required>
+            <input type="email" name="email" placeholder="ಇಮೇಲ್ (Email ID)" required>
+            <div style="position: relative; width: 100%; margin-bottom: 15px;">
+    <input type="password" id="password" name="password" placeholder="ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ (Create Password)" required 
+           style="width: 100%; padding: 10px; box-sizing: border-box; padding-right: 40px; margin-bottom: 0;">
+    <span id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px;">
+        👁️
+    </span>
+</div>
+            <button type="submit">Sign Up (ರಿಜಿಸ್ಟರ್ ಮಾಡಿ)</button>
+        </form>
+
+        <div class="links">
+            <p>ಈಗಾಗಲೇ ಖಾತೆ ಇದೆಯೇ? <a href="login.html">ಇಲ್ಲಿ ಲಾಗಿನ್ ಮಾಡಿ (Login)</a></p>
+            <p><a href="index.html">🏠 ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</a></p>
+        </div>
+    </div>
+<script>
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+
+    // 1. ಪ್ರೊಫೆಷನಲ್ Eye (ತೆರೆದ ಕಣ್ಣು) ಐಕಾನ್
+    const eyeOpen = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    
+    // 2. ಪ್ರೊಫೆಷನಲ್ Eye-slash (ಅಡ್ಡಗೆರೆ ಇರುವ ಕಣ್ಣು) ಐಕಾನ್
+    const eyeClosed = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+
+    // ಪೇಜ್ ಲೋಡ್ ಆದ ತಕ್ಷಣ ಹಳೆಯ ಎಮೋಜಿಯನ್ನು ತೆಗೆದು ಹೊಸ ಒರಿಜಿನಲ್ ಐಕಾನ್ ಲೋಡ್ ಮಾಡುವುದು
+    togglePassword.innerHTML = eyeOpen;
+
+    togglePassword.addEventListener('click', function () {
+        // ಪಾಸ್‌ವರ್ಡ್ ಮತ್ತು ಟೆಕ್ಸ್ಟ್ ಟಾಗಲ್
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        
+        // ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ ಓಪನ್ ಮತ್ತು ಕ್ರಾಸ್ ಐಕಾನ್ ಟಾಗಲ್ ಮಾಡುವುದು
+        this.innerHTML = type === 'password' ? eyeOpen : eyeClosed;
+    });
+</script>
+</body>
+</html>

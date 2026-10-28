@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Jobs - Chaithanya Career Academy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; }
+
+        /* Security & Watermark */
+        body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        body::before { content: "Chaithanya Career Academy"; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 80px; font-weight: bold; color: rgba(0, 0, 0, 0.04); pointer-events: none; z-index: 9999; white-space: nowrap; }
+
+        /* Header & Logo */
+        header { background-color: hwb(202 3% 11%); color: white; text-align: center; padding: 30px 20px; position: relative; }
+        .site-logo { width: 90px; height: 90px; object-fit: contain; background-color: white; border-radius: 50%; padding: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s ease; position: absolute; top: 25px; right: 40px; }
+        .site-logo:hover { transform: scale(1.1); }
+        header h1 { font-size: 32px; margin-bottom: 10px; }
+        header p { font-size: 18px; color: #d4e6f1; }
+        @media (max-width: 768px) { .site-logo { position: static; margin-bottom: 15px; width: 80px; height: 80px; } }
+
+        nav { background-color: #2560df; display: flex; justify-content: center; flex-wrap: wrap; padding: 10px; }
+        nav a { color: white; text-decoration: none; padding: 12px 20px; font-weight: bold; }
+        nav a:hover { background-color: #f39c12; border-radius: 5px; }
+
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; min-height: 60vh; }
+        .section-title { color: #1a5276; border-bottom: 2px solid #f39c12; padding-bottom: 10px; margin-bottom: 30px; font-size: 28px; text-align: center; }
+        
+        .search-container { text-align: center; margin-bottom: 40px; }
+        #jobSearch { width: 100%; max-width: 600px; padding: 15px 25px; font-size: 16px; border: 2px solid #ccc; border-radius: 30px; outline: none; transition: 0.3s ease; }
+        #jobSearch:focus { border-color: #27ae60; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.2); }
+
+        .jobs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .job-box { background-color: white; border-radius: 10px; padding: 40px 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: all 0.4s ease; position: relative; overflow: hidden; }
+        .job-box a { text-decoration: none; color: #2c3e50; font-size: 20px; font-weight: bold; display: block; position: relative; z-index: 2; }
+        .job-box:hover { transform: translateY(-8px); box-shadow: 0 12px 20px rgba(0,0,0,0.15); }
+
+        .job-box:nth-child(1) { border-top: 5px solid #3498db; background: linear-gradient(to bottom, #ebf5fb, #ffffff); }
+        .job-box:nth-child(1):hover a { color: #3498db; }
+        .job-box:nth-child(2) { border-top: 5px solid #2ecc71; background: linear-gradient(to bottom, #eaeded, #ffffff); }
+        .job-box:nth-child(2):hover a { color: #2ecc71; }
+        .job-box:nth-child(3) { border-top: 5px solid #f39c12; background: linear-gradient(to bottom, #fef5e7, #ffffff); }
+        .job-box:nth-child(3):hover a { color: #f39c12; }
+        .job-box:nth-child(4) { border-top: 5px solid #9b59b6; background: linear-gradient(to bottom, #f4ecf8, #ffffff); }
+        .job-box:nth-child(4):hover a { color: #9b59b6; }
+        .job-box:nth-child(5) { border-top: 5px solid #e74c3c; background: linear-gradient(to bottom, #fdedec, #ffffff); }
+        .job-box:nth-child(5):hover a { color: #e74c3c; }
+        .job-box:nth-child(6) { border-top: 5px solid #1abc9c; background: linear-gradient(to bottom, #e8f8f5, #ffffff); }
+        .job-box:nth-child(6):hover a { color: #1abc9c; }
+        .job-box:nth-child(7) { border-top: 5px solid #34495e; background: linear-gradient(to bottom, #ebedef, #ffffff); }
+        .job-box:nth-child(7):hover a { color: #34495e; }
+        .job-box:nth-child(8) { border-top: 5px solid #ff7979; background: linear-gradient(to bottom, #ffeded, #ffffff); }
+        .job-box:nth-child(8):hover a { color: #ff7979; }
+        .job-box:nth-child(9) { border-top: 5px solid #e67e22; background: linear-gradient(to bottom, #fdf2e9, #ffffff); }
+        .job-box:nth-child(9):hover a { color: #e67e22; }
+
+        /* Footer */
+        footer { background-color: #1a5276; color: white; text-align: center; padding: 25px 20px; margin-top: 40px; }
+        .footer-links { margin-top: 15px; }
+        .footer-links a { color: #d4e6f1; text-decoration: none; font-size: 14px; padding: 0 10px; border-right: 1px solid #d4e6f1; transition: color 0.3s; }
+        .footer-links a:last-child { border-right: none; }
+        .footer-links a:hover { color: #f39c12; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="logo.png" alt="Chaithanya Career Academy Logo" class="site-logo">
+        <h1>Chaithanya Career Academy</h1>
+        <p>Guiding You Towards Success</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="current-affairs.html">Current Affairs</a>
+        <a href="jobs.html">Govt Jobs</a>
+        <a href="study.html">Study Material</a>
+        <a href="test-dashboard.html">Mock Test & Quizzes</a>
+        <a href="index.html#contact">Contact Us</a>
+    </nav>
+
+    <div class="container">
+        <h2 class="section-title">Latest Government Jobs</h2>
+        <div class="search-container">
+            <input type="text" id="jobSearch" onkeyup="searchJobs()" placeholder="Search for jobs (e.g., KPSC, Police, Bank)...">
+        </div>
+        <div class="jobs-grid" id="jobsGrid">
+            <div class="job-box"><a href="#">Job 1: KPSC Recruitment</a></div>
+            <div class="job-box"><a href="#">Job 2: SSC CGL 2026</a></div>
+            <div class="job-box"><a href="#">Job 3: Railway (RRB) NTPC</a></div>
+            <div class="job-box"><a href="#">Job 4: Post Office GDS</a></div>
+            <div class="job-box"><a href="#">Job 5: Bank PO (IBPS)</a></div>
+            <div class="job-box"><a href="#">Job 6: KSP Police Constable</a></div>
+            <div class="job-box"><a href="#">Job 7: UGC NET Updates</a></div>
+            <div class="job-box"><a href="#">Job 8: State FDA/SDA</a></div>
+            <div class="job-box"><a href="#">Job 9: CTET Notifications</a></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Chaithanya Career Academy. All Rights Reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+        </div>
+    </footer>
+
+    <!-- Security & Search Script -->
+    <script>
+        function searchJobs() {
+            var input = document.getElementById("jobSearch").value.toUpperCase();
+            var grid = document.getElementById("jobsGrid");
+            var boxes = grid.getElementsByClassName("job-box");
+            for (var i = 0; i < boxes.length; i++) {
+                var link = boxes[i].getElementsByTagName("a")[0]; 
+                var textValue = link.textContent || link.innerText;
+                if (textValue.toUpperCase().indexOf(input) > -1) { boxes[i].style.display = ""; } 
+                else { boxes[i].style.display = "none"; }
+            }
+        }
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('copy', function(e) { e.preventDefault(); });
+        document.addEventListener('cut', function(e) { e.preventDefault(); });
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'P'.charCodeAt(0)))) { return false; }
+        };
+    </script>
+</body>
+</html>
