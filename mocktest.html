@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSET/UGC NET Mock Test - Chaithanya Career Academy</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f9; }
+        #instructions-page, #summary-page, #solutions-page { max-width: 800px; margin: 50px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .btn-start { padding: 12px 24px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 20px; }
+        #test-page { display: none; height: 100vh; }
+        .left-panel { flex: 75%; padding: 30px; background: white; overflow-y: auto; border-right: 2px solid #ddd; }
+        .right-panel { flex: 25%; padding: 20px; background: #eef2f5; text-align: center; }
+        
+        .timer-box { font-size: 22px; font-weight: bold; color: #dc3545; background: white; padding: 10px; border-radius: 5px; border: 2px solid #dc3545; margin-bottom: 20px; display: inline-block; }
+        .question-box { font-size: 18px; margin-bottom: 20px; font-weight: bold; }
+        .options label { display: block; margin: 10px 0; padding: 12px; background: #f9f9f9; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .options label:hover { background: #e9ecef; }
+        .action-btns { margin-top: 30px; display: flex; justify-content: space-between; }
+        .btn-action { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-submit { background: #007bff; } 
+        
+        .grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
+        .q-btn { padding: 15px; font-size: 16px; border: 1px solid #999; border-radius: 5px; cursor: pointer; background-color: #fff; }
+        .not-answered { background-color: #dc3545; color: white; border-color: #dc3545; }
+        .answered { background-color: #28a745; color: white; border-color: #28a745; }
+        .status-labels { font-size: 14px; text-align: left; margin-bottom: 20px; line-height: 2; }
+        
+        .sol-box { margin-bottom: 30px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .sol-option { padding: 10px; margin: 5px 0; border-radius: 5px; border: 1px solid #ddd; background: #f9f9f9;}
+        .sol-correct { background-color: #d4edda; border-color: #28a745; color: #155724; font-weight: bold; } 
+        .sol-wrong { background-color: #f8d7da; border-color: #dc3545; color: #721c24; font-weight: bold; } 
+        .sol-explanation { margin-top: 15px; padding: 15px; background-color: #eef2f5; border-left: 5px solid #007bff; font-size: 15px; border-radius: 4px; }
+
+        /* ಹೊಸದು: Submit Modal (ಪಾಪ್-ಅಪ್) ವಿನ್ಯಾಸ */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: white; width: 450px; border-radius: 8px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .modal-header h3 { margin: 0; color: #333; font-size: 22px; }
+        .close-btn { cursor: pointer; font-size: 20px; color: #999; border: none; background: none; }
+        .close-btn:hover { color: #333; }
+        .modal-body p { margin: 0 0 20px 0; color: #555; font-size: 15px; }
+        
+        .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f9f9f9; }
+        .stat-left { display: flex; align-items: center; gap: 15px; font-size: 16px; color: #444; font-weight: 500; }
+        .stat-icon { width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 18px; color: white; }
+        .bg-orange { background-color: #f39c12; }
+        .bg-blue { background-color: #3498db; }
+        .bg-green { background-color: #2ecc71; }
+        .bg-purple { background-color: #9b59b6; }
+        .stat-value { font-size: 16px; font-weight: bold; color: #333; }
+        
+        .modal-footer { text-align: center; margin-top: 25px; }
+        .btn-final-submit { background-color: #007bff; color: white; border: none; padding: 12px 40px; font-size: 16px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        .btn-final-submit:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. ನಿಯಮಗಳ ಪುಟ -->
+    <div id="instructions-page">
+        <h2>ಪರೀಕ್ಷಾ ನಿಯಮಗಳು (Important Instructions)</h2>
+        <hr>
+        <p>ದಯವಿಟ್ಟು ಈ ಕೆಳಗಿನ ನಿಯಮಗಳನ್ನು ಎಚ್ಚರಿಕೆಯಿಂದ ಓದಿ:</p>
+        <ul>
+            <li>ಈ ಪರೀಕ್ಷೆಯಲ್ಲಿ ಒಟ್ಟು <b>5 ಪ್ರಶ್ನೆಗಳಿವೆ</b>.</li>
+            <li>ಪರೀಕ್ಷೆಯ ಒಟ್ಟು ಸಮಯ: <b>10 ನಿಮಿಷಗಳು</b>.</li>
+            <li>ಸಮಯ ಮುಗಿದ ತಕ್ಷಣ ಪರೀಕ್ಷೆಯು ಸ್ವಯಂಚಾಲಿತವಾಗಿ (Auto-submit) ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</li>
+            <li>ಪ್ರತಿ ಸರಿಯಾದ ಉತ್ತರಕ್ಕೆ 2 ಅಂಕಗಳು. ತಪ್ಪು ಉತ್ತರಕ್ಕೆ ನೆಗೆಟಿವ್ ಮಾರ್ಕ್ಸ್ ಇಲ್ಲ.</li>
+        </ul>
+        <br>
+        <input type="checkbox" id="agree"> <label for="agree">ನಾನು ಎಲ್ಲಾ ನಿಯಮಗಳನ್ನು ಓದಿ ಅರ್ಥಮಾಡಿಕೊಂಡಿದ್ದೇನೆ.</label> <br>
+        <button class="btn-start" onclick="startTest()">I am ready to begin</button>
+    </div>
+
+    <!-- 2. ಮುಖ್ಯ ಪರೀಕ್ಷಾ ಪುಟ -->
+    <div id="test-page">
+        <div class="left-panel">
+            <h2 style="color: #007bff;">UGC NET & KSET Paper 1</h2>
+            <hr>
+            <div id="question-container"></div>
+            <div class="action-btns">
+                <button class="btn-action" style="background:#6c757d;" onclick="clearResponse()">Clear Response</button>
+                <button class="btn-action" onclick="saveAndNext()">Save & Next</button>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="timer-box" id="timer-display">⏱️ Time Left: 10:00</div>
+            
+            <h3>Question Palette</h3>
+            <div class="status-labels">
+                ⬜ Not Visited <br> 🟥 Not Answered <br> 🟩 Answered
+            </div>
+            <div class="grid-container" id="grid-container"></div>
+            <br><br>
+            <!-- ಈ ಬಟನ್ ಒತ್ತಿದಾಗ ಹೊಸ ಮಾಡೆಲ್ ಓಪನ್ ಆಗುತ್ತದೆ -->
+            <button type="button" class="btn-action btn-submit" onclick="openSubmitModal()">Submit Test</button>
+        </div>
+    </div>
+
+    <!-- ಹೊಸದು: 3. Submit Confirmation Modal (ಪಾಪ್-ಅಪ್ ವಿಂಡೋ) -->
+    <div class="modal-overlay" id="submit-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Submit Test</h3>
+                <button class="close-btn" onclick="closeModal()">✖</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to end this test?</p>
+                
+                <div class="stat-row">
+                    <div class="stat-left">
+                        <div class="stat-icon bg-orange">⏳</div>
+                        <span>Time Remaining</span>
+                    </div>
+                    <div class="stat-value" id="modal-time">00:00</div>
+                </div>
+                
+                <div class="stat-row">
+                    <div class="stat-left">
+                        <div class="stat-icon bg-blue">❓</div>
+                        <span>Total Questions</span>
+                    </div>
+                    <div class="stat-value">5</div>
+                </div>
+                
+                <div class="stat-row">
+                    <div class="stat-left">
+                        <div class="stat-icon bg-green">✔️</div>
+                        <span>Questions Answered</span>
+                    </div>
+                    <div class="stat-value" id="modal-answered">0</div>
+                </div>
+                
+                <div class="stat-row">
+                    <div class="stat-left">
+                        <div class="stat-icon bg-purple">⚠️</div>
+                        <span>Not Answered</span>
+                    </div>
+                    <div class="stat-value" id="modal-unanswered">0</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- ಫೈನಲ್ ಸಬ್ಮಿಟ್ ಬಟನ್ -->
+                <button class="btn-final-submit" onclick="submitTestAndSave()">Submit Test</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. ಫಲಿತಾಂಶದ ಪುಟ (Summary) -->
+    <div id="summary-page" style="display: none; text-align: center;">
+        <h2>ಪರೀಕ್ಷಾ ಸಾರಾಂಶ (Test Summary)</h2>
+        <hr>
+        <h3 id="result-text" style="line-height: 1.8;"></h3>
+        <br>
+        <button class="btn-action" onclick="showSolutions()" style="background-color: #28a745;">ಉತ್ತರ ಮತ್ತು ವಿವರಣೆಗಳನ್ನು ನೋಡಿ (View Solutions)</button>
+    </div>
+
+    <!-- 5. ವಿವರಣಾತ್ಮಕ ಉತ್ತರಗಳ ಪುಟ (Solutions Page) -->
+    <div id="solutions-page" style="display: none;">
+        <h2>ಸರಿಯಾದ ಉತ್ತರಗಳು ಮತ್ತು ವಿವರಣೆ (Solutions)</h2>
+        <hr>
+        <div id="solutions-container"></div>
+        <br>
+        <a href="index.html" style="color: #007bff; text-decoration: none; font-size: 18px;"><b>ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ (Back to Home)</b></a>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "ಬ್ಲೂಮ್ಸ್ ಟ್ಯಾಕ್ಸಾನಮಿಯ (Bloom's Taxonomy) ಪ್ರಕಾರ ಅತ್ಯುನ್ನತ ಅರಿವಿನ ಹಂತ (Highest cognitive level) ಯಾವುದು?", options: ["A) ತಿಳಿಯುವುದು (Knowing)", "B) ಅರ್ಥಮಾಡಿಕೊಳ್ಳುವುದು (Understanding)", "C) ವಿಶ್ಲೇಷಿಸುವುದು (Analyzing)", "D) ಮೌಲ್ಯಮಾಪನ ಮಾಡುವುದು (Evaluating)"], ans: 3, explanation: "ಬ್ಲೂಮ್ಸ್ ಟ್ಯಾಕ್ಸಾನಮಿಯ (1956) ಮೂಲ ಆವೃತ್ತಿಯ ಪ್ರಕಾರ, ಕಲಿಕೆಯ ಅತ್ಯುನ್ನತ ಹಂತ 'ಮೌಲ್ಯಮಾಪನ ಮಾಡುವುದು' (Evaluating) ಆಗಿದೆ." },
+            { q: "ಕ್ರಿಯಾ ಸಂಶೋಧನೆ (Action Research) ಎಂದರೆ ಏನು?", options: ["A) ಹೊಸ ಸಿದ್ಧಾಂತವನ್ನು ರಚಿಸುವುದು", "B) ತಕ್ಷಣದ ಸಮಸ್ಯೆಯನ್ನು ಪರಿಹರಿಸಲು ಮಾಡುವ ಸಂಶೋಧನೆ", "C) ಐತಿಹಾಸಿಕ ಘಟನೆಗಳ ಅಧ್ಯಯನ", "D) ಲ್ಯಾಬ್‌ನಲ್ಲಿ ಮಾಡುವ ಪ್ರಯೋಗ"], ans: 1, explanation: "ಕ್ರಿಯಾ ಸಂಶೋಧನೆಯ ಮುಖ್ಯ ಉದ್ದೇಶವು ಸ್ಥಳೀಯ ಅಥವಾ ತಕ್ಷಣದ (Immediate) ಸಮಸ್ಯೆಗಳನ್ನು ಬಗೆಹರಿಸುವುದಾಗಿದೆ." },
+            { q: "ಮಾಹಿತಿ ತಂತ್ರಜ್ಞಾನದಲ್ಲಿ (ICT), 1 ಗಿಗಾಬೈಟ್ (GB) ಎಂದರೆ ಎಷ್ಟು?", options: ["A) 1024 Bytes", "B) 1024 KB", "C) 1024 MB", "D) 1024 TB"], ans: 2, explanation: "ಕಂಪ್ಯೂಟರ್ ಮೆಮೊರಿ ಅಳತೆಯಲ್ಲಿ: 1 KB = 1024 Bytes, 1 MB = 1024 KB, ಮತ್ತು 1 GB = 1024 MB (ಮೆಗಾಬೈಟ್) ಆಗಿರುತ್ತದೆ." },
+            { q: "ಸುಸ್ಥಿರ ಅಭಿವೃದ್ಧಿ ಗುರಿಗಳನ್ನು (Sustainable Development Goals - SDGs) ಯಾವ ವರ್ಷದೊಳಗೆ ಸಾಧಿಸಲು ವಿಶ್ವಸಂಸ್ಥೆ ಗುರಿ ನಿಗದಿಪಡಿಸಿದೆ?", options: ["A) 2025", "B) 2030", "C) 2035", "D) 2050"], ans: 1, explanation: "ವಿಶ್ವಸಂಸ್ಥೆಯು (UN) 2015 ರಲ್ಲಿ 17 ಸುಸ್ಥಿರ ಅಭಿವೃದ್ಧಿ ಗುರಿಗಳನ್ನು (SDGs) ಜಾರಿಗೆ ತಂದಿದ್ದು, ಇವುಗಳನ್ನು 2030 ರ ವೇಳೆಗೆ ಸಾಧಿಸುವ ಗುರಿಯನ್ನು ಹೊಂದಲಾಗಿದೆ." },
+            { q: "ಸಂವಹನ (Communication) ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿ ಮಾಹಿತಿಯನ್ನು ಸ್ವೀಕರಿಸುವವನು (Receiver) ಸಂದೇಶವನ್ನು ಅರ್ಥೈಸಿಕೊಳ್ಳುವ ಹಂತವನ್ನು ಏನೆಂದು ಕರೆಯುತ್ತಾರೆ?", options: ["A) ಎನ್‌ಕೋಡಿಂಗ್ (Encoding)", "B) ಡಿಕೋಡಿಂಗ್ (Decoding)", "C) ಫೀಡ್‌ಬ್ಯಾಕ್ (Feedback)", "D) ಚಾನೆಲ್ (Channel)"], ans: 1, explanation: "ಸಂದೇಶವನ್ನು ಕಳುಹಿಸುವವನು ಅದನ್ನು 'ಎನ್‌ಕೋಡ್' (ರೂಪಿಸುವುದು) ಮಾಡುತ್ತಾನೆ. ಸ್ವೀಕರಿಸುವ ವ್ಯಕ್ತಿಯು ಅದನ್ನು ಓದಿ ಅರ್ಥಮಾಡಿಕೊಳ್ಳುವ ಪ್ರಕ್ರಿಯೆಗೆ 'ಡಿಕೋಡಿಂಗ್' (Decoding) ಎನ್ನುತ್ತಾರೆ." }
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null); 
+        let totalTimeInSeconds = 600; // 10 ನಿಮಿಷಗಳು
+        let timerInterval;
+
+        function startTest() {
+            if (!document.getElementById('agree').checked) {
+                alert("ದಯವಿಟ್ಟು ನಿಯಮಗಳನ್ನು ಒಪ್ಪಿ ಟಿಕ್ ಮಾಡಿ.");
+                return;
+            }
+            document.getElementById('instructions-page').style.display = 'none';
+            document.getElementById('test-page').style.display = 'flex';
+            setupGrid();
+            showQuestion(currentQuestion);
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(function() {
+                totalTimeInSeconds--;
+                let minutes = Math.floor(totalTimeInSeconds / 60);
+                let seconds = totalTimeInSeconds % 60;
+                if (seconds < 10) seconds = "0" + seconds; 
+                
+                document.getElementById('timer-display').innerText = `⏱️ Time Left: ${minutes}:${seconds}`;
+                
+                if (totalTimeInSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    alert("ಸಮಯ ಮುಗಿದಿದೆ! ನಿಮ್ಮ ಪರೀಕ್ಷೆ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಸಬ್ಮಿಟ್ ಆಗುತ್ತಿದೆ.");
+                    submitTestAndSave(); // ಆಟೋ ಸಬ್ಮಿಟ್
+                }
+            }, 1000); 
+        }
+
+        function setupGrid() {
+            let grid = document.getElementById('grid-container');
+            grid.innerHTML = '';
+            for (let i = 0; i < questions.length; i++) {
+                grid.innerHTML += `<button class="q-btn" id="btn-${i}" onclick="jumpToQuestion(${i})">${i + 1}</button>`;
+            }
+        }
+
+        function showQuestion(index) {
+            currentQuestion = index;
+            let qData = questions[index];
+            let btn = document.getElementById(`btn-${index}`);
+            if (!btn.classList.contains('answered')) btn.classList.add('not-answered');
+            let html = `<div class="question-box"><p><b>Q${index + 1}.</b> ${qData.q}</p></div><div class="options">`;
+            for (let i = 0; i < qData.options.length; i++) {
+                let isChecked = answers[index] === i ? "checked" : "";
+                html += `<label><input type="radio" name="opt" value="${i}" ${isChecked} onclick="markAnswer(${index}, ${i})"> ${qData.options[i]}</label>`;
+            }
+            html += `</div>`;
+            document.getElementById('question-container').innerHTML = html;
+        }
+
+        function markAnswer(qIndex, optIndex) {
+            answers[qIndex] = optIndex;
+            let btn = document.getElementById(`btn-${qIndex}`);
+            btn.classList.remove('not-answered');
+            btn.classList.add('answered');
+        }
+
+        function saveAndNext() {
+            if (currentQuestion < questions.length - 1) showQuestion(currentQuestion + 1);
+            else alert("ಇದು ಕೊನೆಯ ಪ್ರಶ್ನೆ. ಪರೀಕ್ಷೆ ಮುಗಿಸಲು 'Submit Test' ಒತ್ತಿ.");
+        }
+
+        function clearResponse() {
+            answers[currentQuestion] = null; 
+            let btn = document.getElementById(`btn-${currentQuestion}`);
+            btn.classList.remove('answered');
+            btn.classList.add('not-answered');
+            showQuestion(currentQuestion);
+        }
+
+        function jumpToQuestion(index) { showQuestion(index); }
+
+        // ಹೊಸದು: Modal ಓಪನ್ ಮಾಡುವ ಫಂಕ್ಷನ್
+        function openSubmitModal() {
+            // ಎಣಿಕೆ ಮಾಡುವುದು
+            let attempted = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (answers[i] !== null) attempted++;
+            }
+            
+            // ಸಮಯದ ಫಾರ್ಮ್ಯಾಟ್ ಸೆಟ್ ಮಾಡುವುದು
+            let minutes = Math.floor(totalTimeInSeconds / 60);
+            let seconds = totalTimeInSeconds % 60;
+            if (seconds < 10) seconds = "0" + seconds;
+            
+            // Modal ಒಳಗೆ ಡೇಟಾ ಹಾಕುವುದು
+            document.getElementById('modal-time').innerText = `${minutes}:${seconds}`;
+            document.getElementById('modal-answered').innerText = attempted;
+            document.getElementById('modal-unanswered').innerText = questions.length - attempted;
+            
+            // Modal ತೋರಿಸುವುದು
+            document.getElementById('submit-modal').style.display = 'flex';
+        }
+
+        // ಹೊಸದು: Modal ಕ್ಲೋಸ್ ಮಾಡುವ ಫಂಕ್ಷನ್ (ಕ್ಯಾನ್ಸಲ್ ಮಾಡಲು)
+        function closeModal() {
+            document.getElementById('submit-modal').style.display = 'none';
+        }
+
+        // ಪರೀಕ್ಷೆ ಅಂತಿಮವಾಗಿ ಸಬ್ಮಿಟ್ ಮಾಡುವ ಫಂಕ್ಷನ್
+        function confirmSubmit() {
+            document.getElementById('submit-modal').style.display = 'none'; // Modal ಮುಚ್ಚುವುದು
+            clearInterval(timerInterval); // ಟೈಮರ್ ನಿಲ್ಲಿಸುವುದು
+
+            let score = 0;
+            let attempted = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (answers[i] !== null) {
+                    attempted++;
+                    if (answers[i] === questions[i].ans) score += 2;
+                }
+            }
+            document.getElementById('test-page').style.display = 'none';
+            document.getElementById('summary-page').style.display = 'block';
+            document.getElementById('result-text').innerHTML = `
+                ಒಟ್ಟು ಪ್ರಶ್ನೆಗಳು: 5 <br>
+                ಉತ್ತರಿಸಿದ್ದು: ${attempted} <br>
+                ಬಿಟ್ಟಿದ್ದು: ${5 - attempted} <br><br>
+                <b>ನಿಮ್ಮ ಸ್ಕೋರ್: ${score} / 10</b>
+            `;
+        }
+
+        function showSolutions() {
+            document.getElementById('summary-page').style.display = 'none';
+            document.getElementById('solutions-page').style.display = 'block';
+            let container = document.getElementById('solutions-container');
+            container.innerHTML = '';
+            for (let i = 0; i < questions.length; i++) {
+                let qData = questions[i];
+                let userAns = answers[i];
+                let correctAns = qData.ans;
+                let html = `<div class="sol-box"><p class="question-box"><b>Q${i + 1}.</b> ${qData.q}</p>`;
+                for (let j = 0; j < qData.options.length; j++) {
+                    let optClass = "sol-option";
+                    let icon = "";
+                    if (j === correctAns) {
+                        optClass += " sol-correct"; 
+                        icon = " ✔️ (ಸರಿಯಾದ ಉತ್ತರ)";
+                    } else if (j === userAns && userAns !== correctAns) {
+                        optClass += " sol-wrong"; 
+                        icon = " ❌ (ನಿಮ್ಮ ಉತ್ತರ)";
+                    }
+                    html += `<div class="${optClass}">${qData.options[j]} ${icon}</div>`;
+                }
+                let statusText = "";
+                if (userAns === null) statusText = "<b style='color:#ff8c00'>ನೀವು ಈ ಪ್ರಶ್ನೆಗೆ ಉತ್ತರಿಸಿಲ್ಲ.</b>";
+                else if (userAns === correctAns) statusText = "<b style='color:#28a745'>ನಿಮ್ಮ ಉತ್ತರ ಸರಿಯಾಗಿದೆ! (+2 ಅಂಕ)</b>";
+                else statusText = "<b style='color:#dc3545'>ನಿಮ್ಮ ಉತ್ತರ ತಪ್ಪಾಗಿದೆ!</b>";
+                
+                html += `<div class="sol-explanation"><p>${statusText}</p><b>ವಿವರಣೆ:</b> ${qData.explanation}</div></div>`;
+                container.innerHTML += html;
+            }
+        }
+    </script>
+    <script>
+        async function submitTestAndSave() {
+    document.getElementById('submit-modal').style.display = 'none';
+    clearInterval(timerInterval);
+
+    let finalScore = 0;
+    for (let i = 0; i < questions.length; i++) {
+        if (answers[i] !== null && answers[i] === questions[i].ans) {
+            finalScore += 2; 
+        }
+    }
+    const totalMarks = questions.length * 2; 
+
+    let timeTakenInSeconds = 600 - totalTimeInSeconds; 
+    let min = Math.floor(timeTakenInSeconds / 60);
+    let sec = timeTakenInSeconds % 60;
+    if (sec < 10) sec = "0" + sec; 
+    const timeSpent = min + ":" + sec;
+
+    const nameOfTest = "PYUT 1: Business Environment"; 
+
+    // ಡೇಟಾವನ್ನು ಒಂದು ಕಡೆ ಸೇರಿಸುವುದು
+    const payload = {
+        testName: nameOfTest,
+        score: finalScore,
+        maxMarks: totalMarks,
+        timeTaken: timeSpent,
+        userAnswers: answers // ಮುಖ್ಯವಾದ ಅರೇ (ಉತ್ತರಗಳು)
+    };
+
+    console.log("ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಹೋಗುತ್ತಿರುವ ಡೇಟಾ:", payload); // ಟೆಸ್ಟಿಂಗ್‌ಗಾಗಿ ಲಾಗ್
+
+    try {
+        const response = await fetch('/save-result', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload) // ಡೇಟಾ ಕಳುಹಿಸುವುದು
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert("✅ ಪರೀಕ್ಷೆ ಯಶಸ್ವಿಯಾಗಿ ಸಬ್ಮಿಟ್ ಆಗಿದೆ!");
+            window.location.href = "test-dashboard.html";
+        } else {
+            alert("ಎರರ್: " + data.message);
+        }
+    } catch (error) {
+        console.error("ರಿಸಲ್ಟ್ ಸೇವ್ ಮಾಡುವಾಗ ಎರರ್:", error);
+    }
+}
+</script>
+</body>
+</html>

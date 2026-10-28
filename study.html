@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Material - Chaithanya Career Academy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; }
+
+        /* Security & Watermark */
+        body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        body::before { content: "Chaithanya Career Academy"; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 80px; font-weight: bold; color: rgba(0, 0, 0, 0.04); pointer-events: none; z-index: 9999; white-space: nowrap; }
+
+        /* Header & Logo */
+        header { background-color: hwb(202 3% 11%); color: white; text-align: center; padding: 30px 20px; position: relative; }
+        .site-logo { width: 90px; height: 90px; object-fit: contain; background-color: white; border-radius: 50%; padding: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.3s ease; position: absolute; top: 25px; right: 40px; }
+        .site-logo:hover { transform: scale(1.1); }
+        header h1 { font-size: 32px; margin-bottom: 10px; }
+        header p { font-size: 18px; color: #d4e6f1; }
+        @media (max-width: 768px) { .site-logo { position: static; margin-bottom: 15px; width: 80px; height: 80px; } }
+
+        nav { background-color: #2560df; display: flex; justify-content: center; flex-wrap: wrap; padding: 10px; }
+        nav a { color: white; text-decoration: none; padding: 12px 20px; font-weight: bold; }
+        nav a:hover { background-color: #f39c12; border-radius: 5px; }
+
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; min-height: 60vh; }
+        .section-title { color: #1a5276; border-bottom: 2px solid #f39c12; padding-bottom: 10px; margin-bottom: 30px; font-size: 28px; text-align: center; }
+        
+        .search-container { text-align: center; margin-bottom: 40px; }
+        #studySearch { width: 100%; max-width: 600px; padding: 15px 25px; font-size: 16px; border: 2px solid #ccc; border-radius: 30px; outline: none; transition: 0.3s ease; }
+        #studySearch:focus { border-color: #27ae60; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.2); }
+
+        .study-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .study-box { background-color: white; border-radius: 10px; padding: 35px 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: all 0.4s ease; position: relative; overflow: hidden; }
+        .study-box a { text-decoration: none; color: #2c3e50; font-size: 22px; font-weight: bold; display: block; }
+        .study-box p { color: #7f8c8d; font-size: 14px; margin-top: 10px; font-weight: bold; }
+        .study-box:hover { transform: translateY(-8px); box-shadow: 0 12px 20px rgba(0,0,0,0.15); }
+
+        .study-box:nth-child(9n + 1) { border-top: 5px solid #3498db; background: linear-gradient(to bottom, #ebf5fb, #ffffff); }
+        .study-box:nth-child(9n + 1):hover a { color: #3498db; }
+        .study-box:nth-child(9n + 2) { border-top: 5px solid #2ecc71; background: linear-gradient(to bottom, #eaeded, #ffffff); }
+        .study-box:nth-child(9n + 2):hover a { color: #2ecc71; }
+        .study-box:nth-child(9n + 3) { border-top: 5px solid #f39c12; background: linear-gradient(to bottom, #fef5e7, #ffffff); }
+        .study-box:nth-child(9n + 3):hover a { color: #f39c12; }
+        .study-box:nth-child(9n + 4) { border-top: 5px solid #9b59b6; background: linear-gradient(to bottom, #f4ecf8, #ffffff); }
+        .study-box:nth-child(9n + 4):hover a { color: #9b59b6; }
+        .study-box:nth-child(9n + 5) { border-top: 5px solid #e74c3c; background: linear-gradient(to bottom, #fdedec, #ffffff); }
+        .study-box:nth-child(9n + 5):hover a { color: #e74c3c; }
+        .study-box:nth-child(9n + 6) { border-top: 5px solid #1abc9c; background: linear-gradient(to bottom, #e8f8f5, #ffffff); }
+        .study-box:nth-child(9n + 6):hover a { color: #1abc9c; }
+        .study-box:nth-child(9n + 7) { border-top: 5px solid #34495e; background: linear-gradient(to bottom, #ebedef, #ffffff); }
+        .study-box:nth-child(9n + 7):hover a { color: #34495e; }
+        .study-box:nth-child(9n + 8) { border-top: 5px solid #ff7979; background: linear-gradient(to bottom, #ffeded, #ffffff); }
+        .study-box:nth-child(9n + 8):hover a { color: #ff7979; }
+        .study-box:nth-child(9n + 9) { border-top: 5px solid #e67e22; background: linear-gradient(to bottom, #fdf2e9, #ffffff); }
+        .study-box:nth-child(9n + 9):hover a { color: #e67e22; }
+
+        /* Footer */
+        footer { background-color: #1a5276; color: white; text-align: center; padding: 25px 20px; margin-top: 40px; }
+        .footer-links { margin-top: 15px; }
+        .footer-links a { color: #d4e6f1; text-decoration: none; font-size: 14px; padding: 0 10px; border-right: 1px solid #d4e6f1; transition: color 0.3s; }
+        .footer-links a:last-child { border-right: none; }
+        .footer-links a:hover { color: #f39c12; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="logo.png" alt="Chaithanya Career Academy Logo" class="site-logo">
+        <h1>Chaithanya Career Academy</h1>
+        <p>Guiding You Towards Success</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="current-affairs.html">Current Affairs</a>
+        <a href="jobs.html">Govt Jobs</a>
+        <a href="study.html">Study Material</a>
+        <a href="test-dashboard.html">Mock Test & Quizzes</a>
+        <a href="index.html#contact">Contact Us</a>
+    </nav>
+
+    <div class="container">
+        <h2 class="section-title">Free Study Material & Notes</h2>
+        <div class="search-container">
+            <input type="text" id="studySearch" onkeyup="searchMaterial()" placeholder="Search notes (e.g., UGC NET, PDO, FDA)...">
+        </div>
+        <div class="study-grid" id="studyGrid">
+            <div class="study-box"><a href="#">UGC NET Paper 1</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">UGC NET Commerce</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">PDO (Rural Dev)</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">FDA - Gen Kannada</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">SDA - Gen Knowledge</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">PC (Police Constable)</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">PSI (Sub Inspector)</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">IBPS PO - Reasoning</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">IBPS PO - Quant</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">CTET - CDP Notes</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">KARTET - EVS Notes</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">RRB NTPC Science</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">SSC CGL English</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">KAS Prelims Paper 1</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">KAS Prelims Paper 2</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">Banking Awareness</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">Computer Awareness</a><p>Download PDF ⬇️</p></div>
+            <div class="study-box"><a href="#">Monthly Current Affairs</a><p>Download PDF ⬇️</p></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Chaithanya Career Academy. All Rights Reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+        </div>
+    </footer>
+
+    <!-- Security & Search Script -->
+    <script>
+        function searchMaterial() {
+            var input = document.getElementById("studySearch").value.toUpperCase();
+            var grid = document.getElementById("studyGrid");
+            var boxes = grid.getElementsByClassName("study-box");
+            for (var i = 0; i < boxes.length; i++) {
+                var link = boxes[i].getElementsByTagName("a")[0]; 
+                var textValue = link.textContent || link.innerText;
+                if (textValue.toUpperCase().indexOf(input) > -1) { boxes[i].style.display = ""; } 
+                else { boxes[i].style.display = "none"; }
+            }
+        }
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('copy', function(e) { e.preventDefault(); });
+        document.addEventListener('cut', function(e) { e.preventDefault(); });
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'P'.charCodeAt(0)))) { return false; }
+        };
+    </script>
+</body>
+</html>
