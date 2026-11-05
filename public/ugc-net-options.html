@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Resources - Chaithanya Career Academy</title>
+    
+    <!-- ಲಾಗಿನ್ ಚೆಕ್ ಆಗುವವರೆಗೆ ಪೇಜ್ ಮುಚ್ಚಿಡಲು -->
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <style> body { display: none; } </style>
+
+    <style>
+        body {
+            -webkit-user-select: none; -ms-user-select: none; user-select: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); /* ಹೊಸ ಆಕರ್ಷಕ ಹಿನ್ನೆಲೆ */
+            margin: 0; 
+            padding: 50px 20px;
+            /* JavaScript ನಿಂದ ಇದು flex ಆಗಿ ಬದಲಾಗುತ್ತದೆ */
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .header-title { 
+            color: #2c3e50; 
+            font-size: 36px; 
+            font-weight: 900;
+            margin-bottom: 5px; 
+            text-align: center; 
+            text-transform: uppercase;
+        }
+        
+        .sub-title { 
+            color: #34495e; 
+            font-size: 16px; 
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 50px; 
+            text-align: center; 
+        }
+
+        /* 2x2 ಗ್ರಿಡ್ ವಿನ್ಯಾಸ */
+        .grid-container {
+            display: flex; 
+            gap: 30px; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            max-width: 800px; 
+            width: 100%;
+        }
+
+        /* 4 ಬಾಕ್ಸ್‌ಗಳ ಸಾಮಾನ್ಯ ವಿನ್ಯಾಸ */
+        .resource-box {
+            flex: 1 1 40%; /* ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿ 2 ಬಾಕ್ಸ್ ಅಕ್ಕಪಕ್ಕ ಬರಲು */
+            min-width: 260px; 
+            max-width: 350px;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-align: center; 
+            text-decoration: none; 
+            color: white;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .resource-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        /* 1. NOTES: ಹಳದಿ/ಕಿತ್ತಳೆ ಬಣ್ಣ */
+        .box-notes { background: linear-gradient(135deg, #F2994A 0%, #F2C94C 100%); } 
+        
+        /* 2. YOUTUBE VIDEOS: ಕೆಂಪು ಬಣ್ಣ */
+        .box-youtube { background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%); }
+
+        /* 3. SYLLABUS: ಹಸಿರು ಬಣ್ಣ */
+        .box-syllabus { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+
+        /* 4. PYQs: ನೀಲಿ ಬಣ್ಣ */
+        .box-pyq { background: linear-gradient(135deg, #4776E6 0%, #8E54E9 100%); }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .resource-box h3 { 
+            font-size: 24px; 
+            margin: 0 0 8px 0; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); 
+        }
+        
+        .click-text { 
+            display: inline-block; 
+            margin-top: 15px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            background: rgba(255, 255, 255, 0.25);
+            padding: 6px 15px;
+            border-radius: 20px;
+        }
+
+        /* ವಾಪಸ್ ಹೋಗುವ ಬಟನ್ */
+        .btn-back {
+            margin-top: 50px; 
+            display: inline-block; 
+            padding: 12px 30px; 
+            background: #ffffff; 
+            color: #2c3e50; 
+            text-decoration: none;
+            font-weight: bold; 
+            border-radius: 30px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+        .btn-back:hover { 
+            background: #2c3e50; 
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+
+    <h2 class="header-title">STUDY RESOURCES</h2>
+    <p class="sub-title">ಆಯ್ಕೆಮಾಡಿ (Select a Category)</p>
+
+    <div class="grid-container">
+        <!-- 1. NOTES Box -->
+        <a href="#" class="resource-box box-notes">
+            <span class="icon">📝</span>
+            <h3>NOTES</h3>
+            <span class="click-text">Read Notes ➡</span>
+        </a>
+
+        <!-- 2. YOUTUBE Box -->
+        <a href="#" id="youtubeBtn" class="resource-box box-youtube">
+            <span class="icon">🎬</span>
+            <h3>YOUTUBE VIDEOS</h3>
+            <span class="click-text">Watch Videos ➡</span>
+        </a>
+
+        <!-- 3. SYLLABUS Box -->
+        <a href="#" class="resource-box box-syllabus">
+            <span class="icon">📋</span>
+            <h3>SYLLABUS</h3>
+            <span class="click-text">View Syllabus ➡</span>
+        </a>
+
+        <!-- 4. PYQs Box -->
+        <a href="#" class="resource-box box-pyq">
+            <span class="icon">⏳</span>
+            <h3>PYQs</h3>
+            <span class="click-text">Solve Papers ➡</span>
+        </a>
+    </div>
+
+    <!-- ಹಿಂದಿನ ಪೇಜ್‌ಗೆ ಹೋಗಲು ಬಟನ್ -->
+    <a href="ugc-net-study.html" class="btn-back">⬅ Back to Paper Selection</a>
+
+    <script>
+        // 1. ಲಾಗಿನ್ ಚೆಕ್ 
+        async function enforceLogin() {
+            try {
+                const response = await fetch('/check-login', { cache: "no-store" });
+                const data = await response.json();
+                
+                if (!data.loggedIn) {
+                    alert("ಈ ಪುಟವನ್ನು ನೋಡಲು ದಯವಿಟ್ಟು ಲಾಗಿನ್ ಮಾಡಿ!");
+                    window.location.replace("login.html?redirect=/ugc-net-options.html"); 
+                } else {
+                    document.body.style.display = "flex";
+                }
+            } catch (error) {
+                window.location.replace("login.html?redirect=/ugc-net-options.html");
+            }
+        }
+        enforceLogin();
+
+        window.addEventListener("pageshow", function (event) {
+            if (event.persisted) window.location.reload();
+        });
+
+        // 2. ಭದ್ರತಾ ಸ್ಕ್ರಿಪ್ಟ್
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('copy', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false;
+            if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+            if (e.ctrlKey && e.keyCode == 'P'.charCodeAt(0)) return false;
+        };
+
+        // ಹಿಂದಿನ ಪೇಜ್‌ನಿಂದ ಬಂದ 'ಚೀಟಿ' (paper1 ಅಥವಾ paper2) ಯನ್ನು ಓದುವುದು
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedPaper = urlParams.get('paper'); 
+
+        // ಯೂಟ್ಯೂಬ್ ಬಟನ್‌ಗೆ ಸರಿಯಾದ ವಿಡಿಯೋ ಲಿಂಕ್ ಸೆಟ್ ಮಾಡುವುದು
+        const ytBtn = document.getElementById('youtubeBtn');
+        if (selectedPaper) {
+            // ಇದು videos.html?category=paper1 ಅಥವಾ videos.html?category=paper2 ಎಂದು ತಾನಾಗಿಯೇ ಬದಲಾಗುತ್ತದೆ!
+            ytBtn.href = `videos.html?category=${selectedPaper}`;
+        }
+
+        
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSET/UGC NET Mock Test Interface</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; }
+        
+        /* Header */
+        .header { background-color: #ffffff; padding: 15px 20px; border-bottom: 2px solid #ddd; display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; }
+        
+        /* Main Layout */
+        .test-container { display: flex; flex: 1; overflow: hidden; }
+        
+        /* Left Panel (Questions) */
+        .left-panel { flex: 7; padding: 20px; display: flex; flex-direction: column; overflow-y: auto; }
+        .question-box { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; flex: 1; }
+        .options-list { list-style: none; padding: 0; }
+        .options-list li { margin: 15px 0; }
+        .options-list label { cursor: pointer; display: flex; align-items: center; font-size: 16px; }
+        .options-list input { margin-right: 10px; width: 18px; height: 18px; }
+        
+        /* Action Buttons */
+        .action-buttons { display: flex; justify-content: space-between; background: #fff; padding: 15px; border-top: 1px solid #ddd; }
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        .btn-prev { background: #f8f9fa; border: 1px solid #ccc; color: #333; }
+        .btn-review { background: #f39c12; color: #fff; } /* Purple/Orange Review */
+        .btn-clear { background: #fff; border: 1px solid #d63031; color: #d63031; }
+        .btn-next { background: #2ecc71; color: #fff; }
+        
+        /* Right Panel (Status Palette) */
+        .right-panel { flex: 3; background: #fff; border-left: 2px solid #ddd; padding: 15px; display: flex; flex-direction: column; }
+        .legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; margin-bottom: 20px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; width: 45%; }
+        .box { width: 20px; height: 20px; border-radius: 4px; border: 1px solid #ccc; }
+        
+        /* Status Colors */
+        .not-visited { background: #ffffff; }
+        .answered { background: #2ecc71; color: #fff; border: none; }
+        .unattempted { background: #e74c3c; color: #fff; border: none; } /* Orange/Red */
+        .review { background: #9b59b6; color: #fff; border: none; } /* Purple */
+        
+        .question-palette { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .q-btn { padding: 10px; text-align: center; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        
+        .submit-btn { margin-top: auto; background: #2c3e50; color: #fff; padding: 15px; width: 100%; border: none; font-size: 16px; border-radius: 5px; cursor: pointer; }
+
+        /* Modals for Submit & Result */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+        .modal-content { background: #fff; padding: 30px; border-radius: 10px; width: 400px; text-align: center; }
+        .modal-btn { background: #2c3e50; color: #fff; padding: 12px 25px; border: none; border-radius: 5px; margin-top: 20px; cursor: pointer; width: 100%; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div>UGC NET / KSET - Paper 1</div>
+        <div>Time Left: <span id="timer">60:00</span></div>
+    </div>
+
+    <div class="test-container">
+        <!-- Left Question Area -->
+        <div class="left-panel">
+            <div class="question-box">
+                <h3 id="q-no">Question 1</h3>
+                <p id="q-text" style="font-size: 18px;">Loading question...</p>
+                <ul class="options-list" id="options-container">
+                    <!-- Options will be loaded here via JS -->
+                </ul>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-prev" onclick="changeQuestion(-1)">← Previous</button>
+                <button class="btn btn-review" onclick="markForReview()">Review & Next</button>
+                <button class="btn btn-clear" onclick="clearResponse()">Clear Response</button>
+                <button class="btn btn-next" onclick="saveAndNext()">Save & Next →</button>
+            </div>
+        </div>
+
+        <!-- Right Status Area -->
+        <div class="right-panel">
+            <div class="legend">
+                <div class="legend-item"><div class="box answered"></div> Answered</div>
+                <div class="legend-item"><div class="box unattempted"></div> Unattempted</div>
+                <div class="legend-item"><div class="box review"></div> Marked for Review</div>
+                <div class="legend-item"><div class="box not-visited"></div> Not Visited</div>
+            </div>
+            
+            <h4>Question Palette</h4>
+            <div class="question-palette" id="palette-container">
+                <!-- Numbers will be loaded here via JS -->
+            </div>
+            
+            <button class="submit-btn" onclick="showSubmitModal()">Submit Test</button>
+        </div>
+    </div>
+
+    <!-- Submit Confirmation Modal -->
+    <div class="modal-overlay" id="submitModal">
+        <div class="modal-content">
+            <h2>Submit Test</h2>
+            <p>Are you sure you want to submit?</p>
+            <p>Total Questions: <span id="total-q-modal"></span></p>
+            <p>Answered: <span id="answered-modal"></span></p>
+            <button class="modal-btn" onclick="finalSubmit()">Final Submit</button>
+            <button class="modal-btn" style="background:#ddd; color:#333;" onclick="closeModal('submitModal')">Cancel</button>
+        </div>
+    </div>
+
+    <!-- View Result Modal -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal-content">
+            <h2 style="color: #2ecc71;">Your test has ended</h2>
+            <p>Your Score: <span id="final-score" style="font-size: 24px; font-weight: bold;"></span></p>
+            <button class="modal-btn" onclick="viewSolutions()">View Solutions</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. ಮಾದರಿ ಪ್ರಶ್ನೆಗಳು (ನಿಮ್ಮ ಡೇಟಾಬೇಸ್‌ನಿಂದ ಇವು ಬರಬೇಕು)
+        const questions = [
+            { id: 1, text: "What is the capital of Karnataka?", options: ["Bengaluru", "Mysuru", "Hubballi", "Mangaluru"], answer: 0 },
+            { id: 2, text: "Which accounting standard deals with Depreciation?", options: ["AS 1", "AS 3", "AS 6", "AS 10"], answer: 2 },
+            { id: 3, text: "FEMA stands for?", options: ["Foreign Exchange Management Act", "Fund Exchange Market", "Federal Emergency Mgt", "None"], answer: 0 }
+        ];
+
+        let currentQIndex = 0;
+        // ಪ್ರಶ್ನೆಗಳ ಸ್ಟೇಟಸ್ ಟ್ರ್ಯಾಕ್ ಮಾಡಲು Array (0: Not Visited, 1: Answered, 2: Unattempted, 3: Review)
+        let qStatus = Array(questions.length).fill(0); 
+        let userAnswers = Array(questions.length).fill(null);
+
+        // 2. ಪೇಜ್ ಲೋಡ್ ಆದಾಗ ಮೊದಲ ಪ್ರಶ್ನೆ ತರಿಸುವುದು
+        window.onload = () => {
+            initPalette();
+            loadQuestion(currentQIndex);
+        };
+
+        function initPalette() {
+            const palette = document.getElementById('palette-container');
+            palette.innerHTML = '';
+            questions.forEach((_, index) => {
+                const btn = document.createElement('div');
+                btn.className = 'box q-btn not-visited';
+                btn.id = `pal-${index}`;
+                btn.innerText = index + 1;
+                btn.onclick = () => loadQuestion(index);
+                palette.appendChild(btn);
+            });
+        }
+
+        function loadQuestion(index) {
+            // ಹಳೆಯ ಪ್ರಶ್ನೆಯ ಸ್ಟೇಟಸ್ ಅಪ್ಡೇಟ್ (Not Visited ಇದ್ದರೆ Unattempted ಆಗುತ್ತದೆ)
+            if (qStatus[currentQIndex] === 0) updateStatus(currentQIndex, 2); 
+            
+            currentQIndex = index;
+            document.getElementById('q-no').innerText = `Question ${index + 1}`;
+            document.getElementById('q-text').innerText = questions[index].text;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            questions[index].options.forEach((opt, i) => {
+                const isChecked = userAnswers[index] === i ? 'checked' : '';
+                optionsContainer.innerHTML += `
+                    <li>
+                        <label>
+                            <input type="radio" name="option" value="${i}" ${isChecked} onchange="selectOption(${i})">
+                            ${opt}
+                        </label>
+                    </li>`;
+            });
+        }
+
+        function selectOption(optIndex) {
+            userAnswers[currentQIndex] = optIndex;
+        }
+
+        // ಬಟನ್ ಲಾಜಿಕ್: Save & Next (ಹಸಿರು)
+        function saveAndNext() {
+            if (userAnswers[currentQIndex] !== null) {
+                updateStatus(currentQIndex, 1); // Answered (Green)
+            } else {
+                updateStatus(currentQIndex, 2); // Unattempted (Orange)
+            }
+            if (currentQIndex < questions.length - 1) loadQuestion(currentQIndex + 1);
+        }
+
+        // ಬಟನ್ ಲಾಜಿಕ್: Mark for Review (ನೇರಳೆ/Purple)
+        function markForReview() {
+            updateStatus(currentQIndex, 3);
+            if (currentQIndex < questions.length - 1) loadQuestion(currentQIndex + 1);
+        }
+
+        function clearResponse() {
+            userAnswers[currentQIndex] = null;
+            updateStatus(currentQIndex, 2); // Unattempted
+            loadQuestion(currentQIndex); // Refresh options
+        }
+
+        function changeQuestion(step) {
+            if (currentQIndex + step >= 0 && currentQIndex + step < questions.length) {
+                loadQuestion(currentQIndex + step);
+            }
+        }
+
+        // ಬಲಭಾಗದ ಬಣ್ಣ ಬದಲಾಯಿಸುವ ಫಂಕ್ಷನ್
+        function updateStatus(index, statusCode) {
+            qStatus[index] = statusCode;
+            const btn = document.getElementById(`pal-${index}`);
+            btn.className = 'box q-btn'; // Reset classes
+            if (statusCode === 1) btn.classList.add('answered');
+            if (statusCode === 2) btn.classList.add('unattempted');
+            if (statusCode === 3) btn.classList.add('review');
+        }
+
+        // Submit ಪಾಪ್-ಅಪ್
+        function showSubmitModal() {
+            const answeredCount = qStatus.filter(s => s === 1).length;
+            document.getElementById('total-q-modal').innerText = questions.length;
+            document.getElementById('answered-modal').innerText = answeredCount;
+            document.getElementById('submitModal').style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // Final Submit & Result ಪಾಪ್-ಅಪ್
+        function finalSubmit() {
+            closeModal('submitModal');
+            let score = 0;
+            userAnswers.forEach((ans, index) => {
+                if (ans === questions[index].answer) score++;
+            });
+            document.getElementById('final-score').innerText = `${score} / ${questions.length}`;
+            document.getElementById('resultModal').style.display = 'flex';
+        }
+
+        function viewSolutions() {
+            alert("ಇಲ್ಲಿ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ನಿಮ್ಮ 'Solutions.html' ಪೇಜ್‌ಗೆ ಕಳುಹಿಸಬಹುದು!");
+            // window.location.href = "solutions.html";
+        }
+    </script>
+</body>
+</html>
